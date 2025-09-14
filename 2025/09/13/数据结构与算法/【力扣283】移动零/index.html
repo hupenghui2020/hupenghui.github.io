@@ -1,0 +1,241 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【力扣283】移动零 | 青柠</title><meta name="author" content="HPH"><meta name="copyright" content="HPH"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="题目给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。 请注意 ，必须在不复制数组的情况下原地对数组进行操作。 示例 1: 12输入: nums &#x3D; [0,1,0,3,12]输出: [1,3,12,0,0]  示例 2: 12输入: nums &#x3D; [0]输出: [0]  提示:  1 &lt;&#x3D; nums.length &lt;&#x3D; 104 -231 &amp;l">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【力扣283】移动零">
+<meta property="og:url" content="https://blog.hph123.top/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3283%E3%80%91%E7%A7%BB%E5%8A%A8%E9%9B%B6/index.html">
+<meta property="og:site_name" content="青柠">
+<meta property="og:description" content="题目给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。 请注意 ，必须在不复制数组的情况下原地对数组进行操作。 示例 1: 12输入: nums &#x3D; [0,1,0,3,12]输出: [1,3,12,0,0]  示例 2: 12输入: nums &#x3D; [0]输出: [0]  提示:  1 &lt;&#x3D; nums.length &lt;&#x3D; 104 -231 &amp;l">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.hph123.top/images_data/leetcode283.png">
+<meta property="article:published_time" content="2025-09-13T02:09:30.000Z">
+<meta property="article:modified_time" content="2025-09-14T11:36:13.164Z">
+<meta property="article:author" content="HPH">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="力扣">
+<meta property="article:tag" content="双指针">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.hph123.top/images_data/leetcode283.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【力扣283】移动零",
+  "url": "https://blog.hph123.top/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3283%E3%80%91%E7%A7%BB%E5%8A%A8%E9%9B%B6/",
+  "image": "https://blog.hph123.top/images_data/leetcode283.png",
+  "datePublished": "2025-09-13T02:09:30.000Z",
+  "dateModified": "2025-09-14T11:36:13.164Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "HPH",
+      "url": "https://blog.hph123.top"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://blog.hph123.top/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3283%E3%80%91%E7%A7%BB%E5%8A%A8%E9%9B%B6/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【力扣283】移动零',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images_data/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/shuoshuo/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 评价</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-list"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/images_data/leetcode283.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">青柠</span></a><a class="nav-page-title" href="/"><span class="site-name">【力扣283】移动零</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/shuoshuo/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 评价</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-list"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">【力扣283】移动零</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-09-13T02:09:30.000Z" title="发表于 2025-09-13 10:09:30">2025-09-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-14T11:36:13.164Z" title="更新于 2025-09-14 19:36:13">2025-09-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个数组 <code>nums</code>，编写一个函数将所有 <code>0</code> 移动到数组的末尾，同时保持非零元素的相对顺序。</p>
+<p><strong>请注意</strong> ，必须在不复制数组的情况下原地对数组进行操作。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [0,1,0,3,12]</span><br><span class="line">输出: [1,3,12,0,0]</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [0]</span><br><span class="line">输出: [0]</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示</strong>:</p>
+<ul>
+<li><code>1 &lt;= nums.length &lt;= 104</code></li>
+<li><code>-231 &lt;= nums[i] &lt;= 231 - 1</code></li>
+</ul>
+<h2 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h2><blockquote>
+<p>双指针实现，定义<code>p1</code>、<code>p2</code>，都指向第一个元素，如果<code>p1</code>值为<code>0</code>，则<code>p2</code>向前移动找出不为<code>0</code>的值和<code>p1</code>进行交换，直到<code>p2 = nums.length</code>；</p>
+<p><code>p2</code>的作用就是为<code>p1</code>找出不为<code>0</code>的值进行替换;</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">moveZeroes</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">p1</span> <span class="operator">=</span> <span class="number">0</span>, p2 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (p2 &lt; nums.length) &#123;</span><br><span class="line">      <span class="keyword">if</span> (nums[p1] == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums[p2] == <span class="number">0</span>) &#123;</span><br><span class="line">          p2++;</span><br><span class="line">          <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        nums[p1] = nums[p2];</span><br><span class="line">        <span class="comment">// 不替换了，直接赋值0</span></span><br><span class="line">        nums[p2] = <span class="number">0</span>;</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        p2++;</span><br><span class="line">      &#125;</span><br><span class="line">      p1++;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="时间复杂的"><a href="#时间复杂的" class="headerlink" title="时间复杂的"></a>时间复杂的</h3><p>只有数组<code>O(n)</code></p>
+<h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3><p>额外空间<code>p1</code>、<code>p2</code>，常数级别<code>O(1)</code></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://blog.hph123.top">HPH</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://blog.hph123.top/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3283%E3%80%91%E7%A7%BB%E5%8A%A8%E9%9B%B6/">https://blog.hph123.top/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3283%E3%80%91%E7%A7%BB%E5%8A%A8%E9%9B%B6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://blog.hph123.top" target="_blank">青柠</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/tags/%E5%8A%9B%E6%89%A3/">力扣</a><a class="post-meta__tags" href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a></div><div class="post-share"><div class="social-share" data-image="/images_data/leetcode283.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A327%E3%80%91%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/" title="【力扣27】移除元素"><img class="cover" src="/images_data/leetcode27.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">【力扣27】移除元素</div></div><div class="info-2"><div class="info-item-1">题目给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素。元素的顺序可能发生改变。然后返回 nums 中与 val 不同的元素的数量。 假设 nums 中不等于 val 的元素数量为 k，要通过此题，您需要执行以下操作：  更改 nums 数组，使 nums 的前 k 个元素包含不等于 val 的元素。nums的其余元素和 nums 的大小并不重要。 返回 k。  示例 1： 1234输入：nums = [3,2,2,3], val = 3输出：2, nums = [2,2,_,_]解释：你的函数函数应该返回 k = 2, 并且 nums 中的前两个元素均为 2。你在返回的 k 个元素之外留下了什么并不重要（因此它们并不计入评测）。  示例 2： 12345输入：nums = [0,1,2,2,3,0,4,2], val = 2输出：5, nums = [0,1,4,0,3,_,_,_]解释：你的函数应该返回 k = 5，并且 nums 中的前五个元素为 0,0,1,3,4。注意这五个元素可以任意顺序返回。你在返回的 k 个元素之外留下了什么并...</div></div></div></a><a class="pagination-related" href="/2025/09/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A319%E3%80%91%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACN%E4%B8%AA%E8%8A%82%E7%82%B9/" title="【力扣21】删除链表的倒数第N个节点"><img class="cover" src="/images_data/leetcode19.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">【力扣21】删除链表的倒数第N个节点</div></div><div class="info-2"><div class="info-item-1">题目给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。 示例 1：  12输入：head = [1,2,3,4,5], n = 2输出：[1,2,3,5]  示例 2： 12输入：head = [1], n = 1输出：[]  示例 3： 12输入：head = [1,2], n = 1输出：[1]  提示：  链表中结点的数目为 sz 1 &lt;= sz &lt;= 30 0 &lt;= Node.val &lt;= 100 1 &lt;= n &lt;= sz  实现代码 使用双指针方式，定义指针p1、p2，都指向链表头节点，起始p1移动k步，那么p2移动n-k步的位置就是倒数第k的位置； 题目需要的是删除倒数第k位置的节点，那么，我们只需要找出k节点的前一个节点即可（或者说是找出倒数k+1位置的节点），即n-(k+1)的位置，如图；   123456789101112131415161718192021222324252627282930/** * Definition for singly-linked list. * public class List...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/09/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A319%E3%80%91%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACN%E4%B8%AA%E8%8A%82%E7%82%B9/" title="【力扣21】删除链表的倒数第N个节点"><img class="cover" src="/images_data/leetcode19.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-12</div><div class="info-item-2">【力扣21】删除链表的倒数第N个节点</div></div><div class="info-2"><div class="info-item-1">题目给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。 示例 1：  12输入：head = [1,2,3,4,5], n = 2输出：[1,2,3,5]  示例 2： 12输入：head = [1], n = 1输出：[]  示例 3： 12输入：head = [1,2], n = 1输出：[1]  提示：  链表中结点的数目为 sz 1 &lt;= sz &lt;= 30 0 &lt;= Node.val &lt;= 100 1 &lt;= n &lt;= sz  实现代码 使用双指针方式，定义指针p1、p2，都指向链表头节点，起始p1移动k步，那么p2移动n-k步的位置就是倒数第k的位置； 题目需要的是删除倒数第k位置的节点，那么，我们只需要找出k节点的前一个节点即可（或者说是找出倒数k+1位置的节点），即n-(k+1)的位置，如图；   123456789101112131415161718192021222324252627282930/** * Definition for singly-linked list. * public class List...</div></div></div></a><a class="pagination-related" href="/2025/09/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A321%E3%80%91%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/" title="【力扣21】合并两个有序链表"><img class="cover" src="/images_data/leetcode21.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-09</div><div class="info-item-2">【力扣21】合并两个有序链表</div></div><div class="info-2"><div class="info-item-1">题目将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 示例 1：  12输入：l1 = [1,2,4], l2 = [1,3,4]输出：[1,1,2,3,4,4]  示例 2： 12输入：l1 = [], l2 = []输出：[]  示例 3： 12输入：l1 = [], l2 = [0]输出：[0]  提示：  两个链表的节点数目范围是 [0, 50] -100 &lt;= Node.val &lt;= 100 l1 和 l2 均按 非递减顺序 排列  实现代码 使用双指针方式，维护两个链表，相互逐步对比大小，小节点放入新链表，并移动到下一个节点，最后判断哪个子链表还有剩，全部连接到新链表后面，最终得到一个排好序的链表；  1234567891011121314151617181920212223242526272829303132333435363738/** * Definition for singly-linked list. * public class ListNode &#123; *     int val; * ...</div></div></div></a><a class="pagination-related" href="/2025/09/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A326%E3%80%91%E5%88%A0%E9%99%A4%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9/" title="【力扣26】删除有序数组中的重复项"><img class="cover" src="/images_data/leetcode26.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-14</div><div class="info-item-2">【力扣26】删除有序数组中的重复项</div></div><div class="info-2"><div class="info-item-1">题目给你一个 非严格递增排列 的数组 nums ，请你** 原地** 删除重复出现的元素，使每个元素 只出现一次 ，返回删除后数组的新长度。元素的 相对顺序 应该保持 一致 。然后返回 nums 中唯一元素的个数。 考虑 nums 的唯一元素的数量为 k ，你需要做以下事情确保你的题解可以被通过：  更改数组 nums ，使 nums 的前 k 个元素包含唯一元素，并按照它们最初在 nums 中出现的顺序排列。nums 的其余元素与 nums 的大小不重要。 返回 k 。  判题标准: 系统会用下面的代码来测试你的题解: 123456789int[] nums = [...]; // 输入数组int[] expectedNums = [...]; // 长度正确的期望答案int k = removeDuplicates(nums); // 调用assert k == expectedNums.length;for (int i = 0; i &lt; k; i++) &#123;    assert nums[i] == expectedNums[i];&#125;  如果所有断...</div></div></div></a><a class="pagination-related" href="/2025/09/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A323%E3%80%91%E5%90%88%E5%B9%B6k%E4%B8%AA%E5%8D%87%E5%BA%8F%E9%93%BE%E8%A1%A8/" title="【力扣23】合并k个升序链表"><img class="cover" src="/images_data/leetcode3.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-12</div><div class="info-item-2">【力扣23】合并k个升序链表</div></div><div class="info-2"><div class="info-item-1">题目给你一个链表数组，每个链表都已经按升序排列。 请你将所有链表合并到一个升序链表中，返回合并后的链表。 示例 1： 12345678910输入：lists = [[1,4,5],[1,3,4],[2,6]]输出：[1,1,2,3,4,4,5,6]解释：链表数组如下：[  1-&gt;4-&gt;5,  1-&gt;3-&gt;4,  2-&gt;6]将它们合并到一个有序链表中得到。1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4-&gt;5-&gt;6  示例 2： 12输入：lists = []输出：[]  示例 3： 12输入：lists = [[]]输出：[]  提示：  k == lists.length 0 &lt;= k &lt;= 10^4 0 &lt;= lists[i].length &lt;= 500 -10^4 &lt;= lists[i][j] &lt;= 10^4 lists[i] 按 升序 排列 lists[i].length 的总和不超过 10^4  实现代码方式一 基于优先级队列的特性，先将所有链表添加到优先级队列中，那么就会给每个...</div></div></div></a><a class="pagination-related" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A327%E3%80%91%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/" title="【力扣27】移除元素"><img class="cover" src="/images_data/leetcode27.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-13</div><div class="info-item-2">【力扣27】移除元素</div></div><div class="info-2"><div class="info-item-1">题目给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素。元素的顺序可能发生改变。然后返回 nums 中与 val 不同的元素的数量。 假设 nums 中不等于 val 的元素数量为 k，要通过此题，您需要执行以下操作：  更改 nums 数组，使 nums 的前 k 个元素包含不等于 val 的元素。nums的其余元素和 nums 的大小并不重要。 返回 k。  示例 1： 1234输入：nums = [3,2,2,3], val = 3输出：2, nums = [2,2,_,_]解释：你的函数函数应该返回 k = 2, 并且 nums 中的前两个元素均为 2。你在返回的 k 个元素之外留下了什么并不重要（因此它们并不计入评测）。  示例 2： 12345输入：nums = [0,1,2,2,3,0,4,2], val = 2输出：5, nums = [0,1,4,0,3,_,_,_]解释：你的函数应该返回 k = 5，并且 nums 中的前五个元素为 0,0,1,3,4。注意这五个元素可以任意顺序返回。你在返回的 k 个元素之外留下了什么并...</div></div></div></a><a class="pagination-related" href="/2025/09/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A383%E3%80%91%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/" title="【力扣83】删除排序链表中的重复元素"><img class="cover" src="/images_data/leetcode83.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-14</div><div class="info-item-2">【力扣83】删除排序链表中的重复元素</div></div><div class="info-2"><div class="info-item-1">题目给定一个已排序的链表的头 head ， 删除所有重复的元素，使每个元素只出现一次 。返回 已排序的链表 。 示例 1：  12输入：head = [1,1,2]输出：[1,2]  示例 2：  12输入：head = [1,1,2,3,3]输出：[1,2,3]  提示：  链表中节点数目在范围 [0, 300] 内 -100 &lt;= Node.val &lt;= 100 题目数据保证链表已经按升序 排列  实现代码 使用双指针方式，定义p1、p2，相同则p2移动一步，并且与p1进行连接，不相同则都往前移，p2到达链表尾部结束；  1234567891011121314151617181920212223242526272829/** * Definition for singly-linked list. * public class ListNode &#123; *     int val; *     ListNode next; *     ListNode() &#123;&#125; *     ListNode(int val) &#123; this.va...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images_data/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">HPH</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这片小园子种的是我刚发芽的想法，若见杂草，欢迎帮我拔掉——留言就是水壶，感谢灌溉！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text">实现代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E7%9A%84"><span class="toc-number">2.1.</span> <span class="toc-text">时间复杂的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-number">2.2.</span> <span class="toc-text">空间复杂度</span></a></li></ol></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/09/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A383%E3%80%91%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/" title="【力扣83】删除排序链表中的重复元素"><img src="/images_data/leetcode83.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【力扣83】删除排序链表中的重复元素"></a><div class="content"><a class="title" href="/2025/09/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A383%E3%80%91%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/" title="【力扣83】删除排序链表中的重复元素">【力扣83】删除排序链表中的重复元素</a><time datetime="2025-09-14T06:09:30.000Z" title="发表于 2025-09-14 14:09:30">2025-09-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A326%E3%80%91%E5%88%A0%E9%99%A4%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9/" title="【力扣26】删除有序数组中的重复项"><img src="/images_data/leetcode26.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【力扣26】删除有序数组中的重复项"></a><div class="content"><a class="title" href="/2025/09/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A326%E3%80%91%E5%88%A0%E9%99%A4%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9/" title="【力扣26】删除有序数组中的重复项">【力扣26】删除有序数组中的重复项</a><time datetime="2025-09-14T02:09:30.000Z" title="发表于 2025-09-14 10:09:30">2025-09-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3160%E3%80%91%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8/" title="【力扣160】相交链表"><img src="/images_data/leetcode160.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【力扣160】相交链表"></a><div class="content"><a class="title" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3160%E3%80%91%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8/" title="【力扣160】相交链表">【力扣160】相交链表</a><time datetime="2025-09-13T12:09:30.000Z" title="发表于 2025-09-13 20:09:30">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3142%E3%80%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/" title="【力扣142】环形链表"><img src="/images_data/leetcode142.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【力扣142】环形链表"></a><div class="content"><a class="title" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3142%E3%80%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/" title="【力扣142】环形链表">【力扣142】环形链表</a><time datetime="2025-09-13T12:09:30.000Z" title="发表于 2025-09-13 20:09:30">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3283%E3%80%91%E7%A7%BB%E5%8A%A8%E9%9B%B6/" title="【力扣283】移动零"><img src="/images_data/leetcode283.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【力扣283】移动零"></a><div class="content"><a class="title" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3283%E3%80%91%E7%A7%BB%E5%8A%A8%E9%9B%B6/" title="【力扣283】移动零">【力扣283】移动零</a><time datetime="2025-09-13T02:09:30.000Z" title="发表于 2025-09-13 10:09:30">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A327%E3%80%91%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/" title="【力扣27】移除元素"><img src="/images_data/leetcode27.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【力扣27】移除元素"></a><div class="content"><a class="title" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A327%E3%80%91%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/" title="【力扣27】移除元素">【力扣27】移除元素</a><time datetime="2025-09-13T02:09:30.000Z" title="发表于 2025-09-13 10:09:30">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3876%E3%80%91%E9%93%BE%E8%A1%A8%E7%9A%84%E4%B8%AD%E9%97%B4%E8%8A%82%E7%82%B9/" title="【力扣876】链表的中间节点"><img src="/images_data/leetcode876.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【力扣876】链表的中间节点"></a><div class="content"><a class="title" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3876%E3%80%91%E9%93%BE%E8%A1%A8%E7%9A%84%E4%B8%AD%E9%97%B4%E8%8A%82%E7%82%B9/" title="【力扣876】链表的中间节点">【力扣876】链表的中间节点</a><time datetime="2025-09-13T02:09:30.000Z" title="发表于 2025-09-13 10:09:30">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A319%E3%80%91%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACN%E4%B8%AA%E8%8A%82%E7%82%B9/" title="【力扣21】删除链表的倒数第N个节点"><img src="/images_data/leetcode19.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【力扣21】删除链表的倒数第N个节点"></a><div class="content"><a class="title" href="/2025/09/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A319%E3%80%91%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACN%E4%B8%AA%E8%8A%82%E7%82%B9/" title="【力扣21】删除链表的倒数第N个节点">【力扣21】删除链表的倒数第N个节点</a><time datetime="2025-09-12T12:09:30.000Z" title="发表于 2025-09-12 20:09:30">2025-09-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A323%E3%80%91%E5%90%88%E5%B9%B6k%E4%B8%AA%E5%8D%87%E5%BA%8F%E9%93%BE%E8%A1%A8/" title="【力扣23】合并k个升序链表"><img src="/images_data/leetcode3.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【力扣23】合并k个升序链表"></a><div class="content"><a class="title" href="/2025/09/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A323%E3%80%91%E5%90%88%E5%B9%B6k%E4%B8%AA%E5%8D%87%E5%BA%8F%E9%93%BE%E8%A1%A8/" title="【力扣23】合并k个升序链表">【力扣23】合并k个升序链表</a><time datetime="2025-09-12T07:09:30.000Z" title="发表于 2025-09-12 15:09:30">2025-09-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97/" title="优先级队列"><img src="/images_data/yxjdl.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="优先级队列"></a><div class="content"><a class="title" href="/2025/09/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97/" title="优先级队列">优先级队列</a><time datetime="2025-09-12T00:09:30.000Z" title="发表于 2025-09-12 08:09:30">2025-09-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A321%E3%80%91%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/" title="【力扣21】合并两个有序链表"><img src="/images_data/leetcode21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【力扣21】合并两个有序链表"></a><div class="content"><a class="title" href="/2025/09/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A321%E3%80%91%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/" title="【力扣21】合并两个有序链表">【力扣21】合并两个有序链表</a><time datetime="2025-09-09T12:09:30.000Z" title="发表于 2025-09-09 20:09:30">2025-09-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A386%E3%80%91%E5%88%86%E5%89%B2%E9%93%BE%E8%A1%A8/" title="【力扣86】分割链表"><img src="/images_data/leetcode86.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【力扣86】分割链表"></a><div class="content"><a class="title" href="/2025/09/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A386%E3%80%91%E5%88%86%E5%89%B2%E9%93%BE%E8%A1%A8/" title="【力扣86】分割链表">【力扣86】分割链表</a><time datetime="2025-09-09T12:09:30.000Z" title="发表于 2025-09-09 20:09:30">2025-09-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F/" title="基数排序"><img src="/images_data/jspx.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="基数排序"></a><div class="content"><a class="title" href="/2025/09/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F/" title="基数排序">基数排序</a><time datetime="2025-09-09T12:09:30.000Z" title="发表于 2025-09-09 20:09:30">2025-09-09</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/09/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A383%E3%80%91%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/" title="【力扣83】删除排序链表中的重复元素"><img src="/images_data/leetcode83.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【力扣83】删除排序链表中的重复元素"/></a><div class="content"><a class="title" href="/2025/09/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A383%E3%80%91%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/" title="【力扣83】删除排序链表中的重复元素">【力扣83】删除排序链表中的重复元素</a><time datetime="2025-09-14T06:09:30.000Z" title="发表于 2025-09-14 14:09:30">2025-09-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A326%E3%80%91%E5%88%A0%E9%99%A4%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9/" title="【力扣26】删除有序数组中的重复项"><img src="/images_data/leetcode26.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【力扣26】删除有序数组中的重复项"/></a><div class="content"><a class="title" href="/2025/09/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A326%E3%80%91%E5%88%A0%E9%99%A4%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9/" title="【力扣26】删除有序数组中的重复项">【力扣26】删除有序数组中的重复项</a><time datetime="2025-09-14T02:09:30.000Z" title="发表于 2025-09-14 10:09:30">2025-09-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3160%E3%80%91%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8/" title="【力扣160】相交链表"><img src="/images_data/leetcode160.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【力扣160】相交链表"/></a><div class="content"><a class="title" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3160%E3%80%91%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8/" title="【力扣160】相交链表">【力扣160】相交链表</a><time datetime="2025-09-13T12:09:30.000Z" title="发表于 2025-09-13 20:09:30">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3142%E3%80%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/" title="【力扣142】环形链表"><img src="/images_data/leetcode142.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【力扣142】环形链表"/></a><div class="content"><a class="title" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3142%E3%80%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/" title="【力扣142】环形链表">【力扣142】环形链表</a><time datetime="2025-09-13T12:09:30.000Z" title="发表于 2025-09-13 20:09:30">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3283%E3%80%91%E7%A7%BB%E5%8A%A8%E9%9B%B6/" title="【力扣283】移动零"><img src="/images_data/leetcode283.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【力扣283】移动零"/></a><div class="content"><a class="title" href="/2025/09/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E3%80%90%E5%8A%9B%E6%89%A3283%E3%80%91%E7%A7%BB%E5%8A%A8%E9%9B%B6/" title="【力扣283】移动零">【力扣283】移动零</a><time datetime="2025-09-13T02:09:30.000Z" title="发表于 2025-09-13 10:09:30">2025-09-13</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/images_data/footer.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By HPH</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const initValine = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyValine = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const valineConfig = {
+      el: '#vcomment',
+      appId: 'cv29vsCHN2gMqiyOfEhg49aH-gzGzoHsz',
+      appKey: 'AaZf36iuQslH9ffJu6gW0rTO',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      visitor: false,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || window.location.pathname
+    }
+
+    new Valine(valineConfig)
+  }
+
+  const loadValine = async (el, path) => {
+    if (typeof Valine === 'function') {
+      initValine(el, path)
+    } else {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js')
+      initValine(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Valine' === 'Valine'
+      ? window.shuoshuoComment = { loadComment: loadValine }
+      : window.loadOtherComment = loadValine
+    return
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
